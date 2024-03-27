@@ -1,0 +1,222 @@
+From 6607061537b4007182f51d31ba4af3427082d45c Mon Sep 17 00:00:00 2001
+From: pexcn <pexcn97@gmail.com>
+Date: Sun, 3 Mar 2024 15:31:06 +0800
+Subject: [PATCH] show soc status on luci
+
+Signed-off-by: pexcn <pexcn97@gmail.com>
+---
+ modules/luci-base/root/sbin/soc-status        | 63 +++++++++++++++++++
+ .../luci-base/root/usr/share/rpcd/ucode/luci  | 51 +++++++++++++++
+ .../view/status/include/10_system.js          | 30 ++++++++-
+ .../usr/share/rpcd/acl.d/luci-mod-status.json |  2 +-
+ 4 files changed, 142 insertions(+), 4 deletions(-)
+ create mode 100755 modules/luci-base/root/sbin/soc-status
+
+diff --git a/modules/luci-base/root/sbin/soc-status b/modules/luci-base/root/sbin/soc-status
+new file mode 100755
+index 0000000000..467b3247bf
+--- /dev/null
++++ b/modules/luci-base/root/sbin/soc-status
+@@ -0,0 +1,63 @@
++#!/bin/sh
++# shellcheck disable=SC2155
++
++get_cpu_freq() {
++  local value="$(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_cur_freq 2>/dev/null)"
++  [ -n "$value" ] || value="0"
++  echo "$value"
++}
++
++get_cpu_governor() {
++  local value="$(cat /sys/devices/system/cpu/cpufreq/policy0/scaling_governor 2>/dev/null)"
++  [ -n "$value" ] || value="unknown"
++  echo "$value"
++}
++
++get_cpu_temp() {
++  local value="$(cat /sys/class/thermal/thermal_zone*/temp 2>/dev/null | sort -n | tail -1)"
++  [ -n "$value" ] || value="-1"
++  echo "$value"
++}
++
++get_wifi_temp() {
++  local value="$(cat /sys/class/ieee80211/phy*/hwmon*/temp*_input 2>/dev/null | sort -n | tail -1)"
++  [ -n "$value" ] || value="-1"
++  echo "$value"
++}
++
++get_cpu_usage() {
++  local value="$(top -b -n1 | awk '/^CPU/ { print 100-$8 }')"
++  [ -n "$value" ] || value="-1"
++  echo "$value"
++}
++
++get_nss_usage() {
++  local value="$(grep '%' /sys/kernel/debug/qca-nss-drv/stats/cpu_load_ubi 2>/dev/null | awk '{print $2}' | sed 's/%//')"
++  [ -n "$value" ] || value="-1"
++  echo "$value"
++}
++
++case "$1" in
++  cpu_freq)
++    get_cpu_freq
++    ;;
++  cpu_governor)
++    get_cpu_governor
++    ;;
++  cpu_temp)
++    get_cpu_temp | awk '{ printf("%.1f\n", $1/1000) }'
++    ;;
++  wifi_temp)
++    get_wifi_temp | awk '{ printf("%.1f\n", $1/1000) }'
++    ;;
++  cpu_usage)
++    get_cpu_usage
++    ;;
++  nss_usage)
++    get_nss_usage
++    ;;
++  *)
++    echo "Usage: $0 {cpu_freq|cpu_governor|cpu_temp|wifi_temp|cpu_usage|nss_usage}"
++    exit 1
++    ;;
++esac
+diff --git a/modules/luci-base/root/usr/share/rpcd/ucode/luci b/modules/luci-base/root/usr/share/rpcd/ucode/luci
+index 3c4fea4691..abccca886e 100644
+--- a/modules/luci-base/root/usr/share/rpcd/ucode/luci
++++ b/modules/luci-base/root/usr/share/rpcd/ucode/luci
+@@ -581,6 +581,57 @@ const methods = {
+ 
+ 			return { result: ports };
+ 		}
++	},
++
++	getCoreInfo: {
++		call: function() {
++			let fd;
++			let result = {};
++
++			fd = popen('soc-status cpu_freq');
++			result.cpufreq = trim(fd.read('all'));
++			fd.close();
++
++			fd = popen('soc-status cpu_governor');
++			result.governor = trim(fd.read('all'));
++			fd.close();
++
++			return result;
++		}
++	},
++
++	getCoreTemp: {
++		call: function() {
++			let fd;
++			let result = {};
++
++			fd = popen('soc-status cpu_temp');
++			result.cpu = trim(fd.read('all'));
++			fd.close();
++
++			fd = popen('soc-status wifi_temp');
++			result.wifi = trim(fd.read('all'));
++			fd.close();
++
++			return result;
++		}
++	},
++
++	getCoreUsage: {
++		call: function() {
++			let fd;
++			let result = {};
++
++			fd = popen('soc-status cpu_usage');
++			result.cpu = trim(fd.read('all'));
++			fd.close();
++
++			fd = popen('soc-status nss_usage');
++			result.nss = trim(fd.read('all'));
++			fd.close();
++
++			return result;
++		}
+ 	}
+ };
+ 
+diff --git a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+index 45f7b4acae..032f74bdd4 100644
+--- a/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
++++ b/modules/luci-mod-status/htdocs/luci-static/resources/view/status/include/10_system.js
+@@ -8,6 +8,21 @@ var callLuciVersion = rpc.declare({
+ 	method: 'getVersion'
+ });
+ 
++var callCoreInfo = rpc.declare({
++	object: 'luci',
++	method: 'getCoreInfo'
++});
++
++var callCoreTemp = rpc.declare({
++	object: 'luci',
++	method: 'getCoreTemp'
++});
++
++var callCoreUsage = rpc.declare({
++	object: 'luci',
++	method: 'getCoreUsage'
++});
++
+ var callSystemBoard = rpc.declare({
+ 	object: 'system',
+ 	method: 'board'
+@@ -25,14 +40,20 @@ return baseclass.extend({
+ 		return Promise.all([
+ 			L.resolveDefault(callSystemBoard(), {}),
+ 			L.resolveDefault(callSystemInfo(), {}),
+-			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' })
++			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' }),
++			L.resolveDefault(callCoreInfo(), {}),
++			L.resolveDefault(callCoreTemp(), {}),
++			L.resolveDefault(callCoreUsage(), {})
+ 		]);
+ 	},
+ 
+ 	render: function(data) {
+ 		var boardinfo   = data[0],
+ 		    systeminfo  = data[1],
+-		    luciversion = data[2];
++		    luciversion = data[2],
++		    coreinfo    = data[3],
++		    coretemp    = data[4],
++		    coreusage   = data[5];
+ 
+ 		luciversion = luciversion.branch + ' ' + luciversion.revision;
+ 
+@@ -64,7 +85,10 @@ return baseclass.extend({
+ 				systeminfo.load[0] / 65535.0,
+ 				systeminfo.load[1] / 65535.0,
+ 				systeminfo.load[2] / 65535.0
+-			) : null
++			) : null,
++			_('核心频率'),          coreinfo.cpufreq / 1000 + ' MHz ' + '(' + coreinfo.governor + ')',
++			_('核心温度'),          'CPU ' + coretemp.cpu + ' °C' + ' / ' + 'WiFi ' + coretemp.wifi + ' °C',
++			_('使用率'),            'CPU ' + coreusage.cpu + '%' + ' / ' + 'NSS ' + coreusage.nss + '%'
+ 		];
+ 
+ 		var table = E('table', { 'class': 'table' });
+diff --git a/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json b/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+index 45dd7d7d9e..8f60a1eda8 100644
+--- a/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
++++ b/modules/luci-mod-status/root/usr/share/rpcd/acl.d/luci-mod-status.json
+@@ -3,7 +3,7 @@
+ 		"description": "Grant access to realtime statistics",
+ 		"read": {
+ 			"ubus": {
+-				"luci": [ "getConntrackList", "getRealtimeStats" ],
++				"luci": [ "getConntrackList", "getRealtimeStats", "getCoreInfo", "getCoreTemp", "getCoreUsage" ],
+ 				"network.rrdns": [ "lookup" ]
+ 			}
+ 		}
+-- 
+2.39.2
+
