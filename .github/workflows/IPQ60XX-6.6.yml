@@ -9,6 +9,8 @@ env:
   REPO_URL: https://github.com/breeze303/openwrt-ipq60xx.git
   REPO_BRANCH: main
   CONFIG_FILE: configs/ipq60xx-6.6.config
+  PATCHES_FILE_1: patches/002-tini_code_fix.patch
+  PATCHES_FILE_2: patches/0002-show-soc-status-on-luci.patch
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
@@ -99,8 +101,9 @@ jobs:
       run: |
         git config --global user.name "OpenWrt Builder"
         git config --global user.email "buster-openwrt@ovvo.uk"
+        cp $PATCHES_FILE_1 $OPENWRT_PATH/package/feeds/packages/tini/patches
+        cp $PATCHES_FILE_2 $OPENWRT_PATH/feeds/luci
         cd $OPENWRT_PATH/feeds/luci
-        wget https://raw.githubusercontent.com/breeze303/OpenWrt/main/patchs/0002-show-soc-status-on-luci.patch
         git am 0002-show-soc-status-on-luci.patch
   
     - name: Load Custom Configuration
@@ -167,7 +170,7 @@ jobs:
         body: |
           **This is OpenWrt Firmware for ${{ env.FIRMWARE_TAG }}**
           ### 📒 固件信息(6.6内核-NOWIFI)
-          - 这是带NSS的6.6内核固件
+          - 这是不带WiFi的6.6内核固件
           - 💻 这是 ${{ env.FIRMWARE_TAG }} 平台使用的 OpenWrt 固件
           - ⚽ 固件源码: ${{ env.REPO_URL }}
           - 💝 源码分支: ${{ env.REPO_BRANCH }}
