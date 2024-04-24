@@ -1,6 +1,6 @@
 <div align="center">
 <img width="768" src="https://github.com/breeze303/ipq60xx-6.1/blob/main/include/logo.png"/>
-<h1>OpenWrt — IPQ60XX云编译</h1>
+<h1>OpenWrt — IPQ系列云编译</h1>
 
 
 ## 项目说明 [![](https://img.shields.io/badge/-项目基本介绍-FFFFFF.svg)](#项目说明-)
@@ -17,6 +17,7 @@
 | [![](https://img.shields.io/badge/6.6-32C955.svg?logo=openwrt)](https://github.com/breeze303/OpenWrt/blob/main/.github/workflows/IPQ60XX-6.6.yml) | [![](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6.yml/badge.svg)](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6.yml) | [![](https://img.shields.io/badge/编译-配置-orange.svg?logo=apache-spark)](https://github.com/breeze303/OpenWrt/blob/main/configs/ipq60xx-6.6.config) | [![](https://img.shields.io/badge/下载-链接-blueviolet.svg?logo=hack-the-box)](https://github.com/breeze303/OpenWrt/releases/IPQ60XX-6.6) |
 | [![](https://img.shields.io/badge/6.6-WIFI(EMMC)-32C955.svg?logo=openwrt)](https://github.com/breeze303/OpenWrt/blob/main/.github/workflows/IPQ60XX-6.6-WIFI(EMMC).yml) | [![](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6-WIFI(EMMC).yml/badge.svg)](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6-WIFI(EMMC).yml) | [![](https://img.shields.io/badge/编译-配置-orange.svg?logo=apache-spark)](https://github.com/breeze303/OpenWrt/blob/main/configs/ipq60xx-6.6-wifi(emmc).config) | [![](https://img.shields.io/badge/下载-链接-blueviolet.svg?logo=hack-the-box)](https://github.com/breeze303/OpenWrt/releases/IPQ60XX-6.6-WIFI(EMMC)) |
 | [![](https://img.shields.io/badge/6.6-WIFI-32C955.svg?logo=openwrt)](https://github.com/breeze303/OpenWrt/blob/main/.github/workflows/IPQ60XX-6.6-WIFI.yml) | [![](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6-WIFI.yml/badge.svg)](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ60XX-6.6-WIFI.yml) | [![](https://img.shields.io/badge/编译-配置-orange.svg?logo=apache-spark)](https://github.com/breeze303/OpenWrt/blob/main/configs/ipq60xx-6.6-wifi.config) | [![](https://img.shields.io/badge/下载-链接-blueviolet.svg?logo=hack-the-box)](https://github.com/breeze303/OpenWrt/releases/IPQ60XX-6.6-WIFI) |
+| [![](https://img.shields.io/badge/IPQ807X-32C955.svg?logo=openwrt)](https://github.com/breeze303/OpenWrt/blob/main/.github/workflows/IPQ807X-WIFI.yml) | [![](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ807X-WIFI.yml/badge.svg)](https://github.com/breeze303/OpenWrt/actions/workflows/IPQ807X-WIFI.yml) | [![](https://img.shields.io/badge/编译-配置-orange.svg?logo=apache-spark)](https://github.com/breeze303/OpenWrt/blob/main/configs/ipq807x-wifi.config) | [![](https://img.shields.io/badge/下载-链接-blueviolet.svg?logo=hack-the-box)](https://github.com/breeze303/OpenWrt/releases/IPQ807X-WIFI) |
 
 ## 定制固件 [![](https://img.shields.io/badge/-项目基本编译教程-FFFFFF.svg)](#定制固件-)
 1. 首先要登录 Gihub 账号，然后 Fork 此项目到你自己的 Github 仓库
