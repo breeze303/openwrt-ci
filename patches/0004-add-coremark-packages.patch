@@ -1,0 +1,48 @@
+From babdea674a730cf6df059d60bfab281767d4740f Mon Sep 17 00:00:00 2001
+From: breeze303 <grapenskrskr@gmail.com>
+Date: Wed, 8 May 2024 22:10:07 +0800
+Subject: [PATCH] add-coremark-packages
+
+---
+ utils/coremark/coremark    |  7 +++++++
+ utils/coremark/coremark.sh | 12 ++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 utils/coremark/coremark
+ create mode 100644 utils/coremark/coremark.sh
+
+diff --git a/utils/coremark/coremark b/utils/coremark/coremark
+new file mode 100644
+index 000000000..2fcdd544b
+--- /dev/null
++++ b/utils/coremark/coremark
+@@ -0,0 +1,7 @@
++#!/bin/sh
++
++sed -i '/coremark/d' /etc/crontabs/root
++echo "0 4 * * * /etc/coremark.sh" >> /etc/crontabs/root
++crontab /etc/crontabs/root
++
++touch /etc/bench.log
+\ No newline at end of file
+diff --git a/utils/coremark/coremark.sh b/utils/coremark/coremark.sh
+new file mode 100644
+index 000000000..e581b7c92
+--- /dev/null
++++ b/utils/coremark/coremark.sh
+@@ -0,0 +1,12 @@
++#!/bin/sh
++
++/bin/coremark > /tmp/coremark.log
++
++cat /tmp/coremark.log | grep "CoreMark 1.0" | cut -d  "/"  -f 1 > /etc/bench.log
++sed -i 's/CoreMark 1.0/ (CpuMark/g'  /etc/bench.log
++echo " Scores)" >> /etc/bench.log
++
++if [ -f "/etc/bench.log" ]; then
++ sed -i '/coremark/d' /etc/crontabs/root
++ crontab /etc/crontabs/root
++fi
+\ No newline at end of file
+-- 
+2.34.1
+
