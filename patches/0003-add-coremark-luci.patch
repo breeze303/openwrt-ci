@@ -132,9 +132,9 @@ index 45f7b4acae..68b41e4b48 100644
 @@ -33,6 +51,9 @@ return baseclass.extend({
  		var boardinfo   = data[0],
  		    systeminfo  = data[1],
- 		    luciversion = data[2];
-+			cpubench    = data[3],
-+			coretemp    = data[4],
+ 		    luciversion = data[2],
++			   cpubench    = data[3],
++			   coretemp    = data[4],
 +		    coreusage   = data[5];
  
  		luciversion = luciversion.branch + ' ' + luciversion.revision;
