@@ -8,7 +8,7 @@ Subject: [PATCH] add-coremark-luci
  .../luci-base/root/usr/share/rpcd/ucode/luci  | 36 +++++++++++++++++++
  .../view/status/include/10_system.js          | 29 +++++++++++++---
  .../usr/share/rpcd/acl.d/luci-mod-status.json |  2 +-
- 4 files changed, 89 insertions(+), 3 deletions(-)
+ 4 files changed, 90 insertions(+), 4 deletions(-)
  create mode 100755 modules/luci-base/root/sbin/soc-status
 
 diff --git a/modules/luci-base/root/sbin/soc-status b/modules/luci-base/root/sbin/soc-status
