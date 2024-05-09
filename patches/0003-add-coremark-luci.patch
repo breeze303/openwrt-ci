@@ -6,7 +6,7 @@ Subject: [PATCH] add-coremark-luci
 ---
  modules/luci-base/root/sbin/soc-status        | 27 ++++++++++++++
  .../luci-base/root/usr/share/rpcd/ucode/luci  | 36 +++++++++++++++++++
- .../view/status/include/10_system.js          | 2 +++++++++++++--
+ .../view/status/include/10_system.js          | 29 +++++++++++++---
  .../usr/share/rpcd/acl.d/luci-mod-status.json |  2 +-
  4 files changed, 89 insertions(+), 3 deletions(-)
  create mode 100755 modules/luci-base/root/sbin/soc-status
@@ -151,6 +151,7 @@ index 45f7b4acae..68b41e4b48 100644
 @@ -65,6 +86,8 @@ return baseclass.extend({
  				systeminfo.load[1] / 65535.0,
  				systeminfo.load[2] / 65535.0
+-			) : null
 +			) : null,
 +			_('核心温度'),          'CPU ' + coretemp.cpu + ' °C',
 +			_('使用率'),            'CPU ' + coreusage.cpu + '%'
