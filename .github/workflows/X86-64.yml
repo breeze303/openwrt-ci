@@ -97,18 +97,6 @@ jobs:
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
-    - name: Apply patches(安装补丁)   
-      run: |
-        git config --global user.name "OpenWrt Builder"
-        git config --global user.email "buster-openwrt@ovvo.uk"
-        cp $PATCHES_FILE_1 $OPENWRT_PATH/feeds/luci
-        cp $PATCHES_FILE_2 $OPENWRT_PATH/feeds/packages
-        cd $OPENWRT_PATH/feeds/luci
-        git am 0003-add-coremark-luci.patch && cd -
-        cd $OPENWRT_PATH/feeds/packages
-        git am 0004-add-coremark-packages.patch
-
-  
     - name: Load Custom Configuration(加载自定义配置)
       run: |
         [ -e files ] && mv files $OPENWRT_PATH/files
