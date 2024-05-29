@@ -93,6 +93,9 @@ jobs:
     - name: Install Feeds(安装feeds)
       run: |
         cd $OPENWRT_PATH
+        git clone https://github.com/sbwml/luci-app-daed package/daed
+        git clone https://github.com/sbwml/v2ray-geodata package/daed/v2ray-geodata
+        sudo apt-get install -y clang-13
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
