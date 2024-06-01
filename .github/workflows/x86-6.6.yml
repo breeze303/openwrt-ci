@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  REPO_BRANCH: kernel-6.6
+  REPO_BRANCH: master
   CONFIG_FILE: configs/x86-6.6.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
