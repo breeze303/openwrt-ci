@@ -2,6 +2,9 @@
 <img width="768" src="https://github.com/breeze303/ipq60xx-6.1/blob/main/include/logo.png"/>
 <h1>OpenWrt — 云编译</h1>
 
+- **近日发现有某些玩家拿这套源码去售卖定制服务**
+- **基于开源理念，应该互帮互助，禁止用于商业用途**
+- **为此源码库及本库暂停更新，源码库已关闭，恢复时间待定**
 
 ## 项目说明 [![](https://img.shields.io/badge/-项目基本介绍-FFFFFF.svg)](#项目说明-)
 - 固件默认管理地址：`192.168.1.1` 默认用户：`root` 默认密码：`password`
