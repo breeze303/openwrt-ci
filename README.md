@@ -2,9 +2,16 @@
 <img width="768" src="https://github.com/breeze303/ipq60xx-6.1/blob/main/include/logo.png"/>
 <h1>OpenWrt — 云编译</h1>
 
+## 通知 [![](https://img.shields.io/badge/-通知-FFFFFF.svg)](#通知-)
 - **近日发现有某些玩家拿这套源码去售卖定制服务**
 - **基于开源理念，应该互帮互助，禁止用于商业用途**
 - **为此源码库及本库暂停更新，源码库已关闭，恢复时间待定**
+
+## 特别提示 [![](https://img.shields.io/badge/-个人免责声明-FFFFFF.svg)](#特别提示-)
+
+- **本人不对任何人因使用本固件所遭受的任何理论或实际的损失承担责任！**
+
+- **本固件禁止用于任何商业用途，请务必严格遵守国家互联网使用相关法律规定！**
 
 ## 项目说明 [![](https://img.shields.io/badge/-项目基本介绍-FFFFFF.svg)](#项目说明-)
 - 固件默认管理地址：`192.168.1.1` 默认用户：`root` 默认密码：`password`
@@ -75,12 +82,6 @@
    **如果看不懂编译界面可以参考 YouTube 视频：[软路由固件 OpenWrt 编译界面设置](https://www.youtube.com/watch?v=jEE_J6-4E3Y&list=WL&index=7)**
 </details>
 
-
-## 特别提示 [![](https://img.shields.io/badge/-个人免责声明-FFFFFF.svg)](#特别提示-)
-
-- **本人不对任何人因使用本固件所遭受的任何理论或实际的损失承担责任！**
-
-- **本固件禁止用于任何商业用途，请务必严格遵守国家互联网使用相关法律规定！**
 
 <a href="#readme">
 <img src="https://img.shields.io/badge/-返回顶部-FFFFFF.svg" title="返回顶部" align="right"/>
