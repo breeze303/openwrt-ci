@@ -2,11 +2,6 @@
 <img width="768" src="https://github.com/breeze303/ipq60xx-6.1/blob/main/include/logo.png"/>
 <h1>OpenWrt — 云编译</h1>
 
-## 通知 [![](https://img.shields.io/badge/-通知-FFFFFF.svg)](#通知-)
-- **近日发现有某些玩家拿这套源码去售卖定制服务**
-- **基于开源理念，应该互帮互助，禁止用于商业用途**
-- **为此源码库及本库无限期停更，源码库已关闭**
-
 ## 特别提示 [![](https://img.shields.io/badge/-个人免责声明-FFFFFF.svg)](#特别提示-)
 
 - **本人不对任何人因使用本固件所遭受的任何理论或实际的损失承担责任！**
