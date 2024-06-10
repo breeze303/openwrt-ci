@@ -6,7 +6,7 @@ on:
     - cron: 0 19 * * *
 
 env:
-  REPO_URL: https://github.com/breeze303/openwrt-6.x.git
+  REPO_URL: https://github.com/breeze303/openwrt.git
   REPO_BRANCH: main
   CONFIG_FILE: configs/ipq807x-wifi.config
   PATCHES_FILE_1: patches/0001-show-soc-status-on-luci.patch
