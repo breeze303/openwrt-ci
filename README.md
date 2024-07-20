@@ -1,5 +1,5 @@
 <div align="center">
-<img width="768" src="https://github.com/breeze303/ipq60xx-6.1/blob/main/include/logo.png"/>
+<img width="768" src="https://github.com/breeze303/openwrt-ci/blob/main/images/openwrt.png"/>
 <h1>OpenWrt — 云编译</h1>
 
 ## 特别提示 [![](https://img.shields.io/badge/-个人免责声明-FFFFFF.svg)](#特别提示-)
