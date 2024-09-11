@@ -70,6 +70,8 @@ jobs:
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
         VERSION_KERNEL=$(grep -oP 'LINUX_KERNEL_HASH-\K[0-9]+\.[0-9]+\.[0-9]+' include/kernel-6.6)
         echo "VERSION_KERNEL=$VERSION_KERNEL" >> $GITHUB_ENV
+        VERSION_LOG=$(git log --since="$(date -d 'yesterday 00:00' '+%Y-%m-%dT%H:%M:%S')" --until="$(date -d 'today 00:00' '+%Y-%m-%dT%H:%M:%S')" --pretty=format:"%h %s" --no-merges -- . ':(exclude)scripts/feeds')
+        echo "VERSION_LOG=$VERSION_LOG" >> $GITHUB_ENV
 
     - name: Generate Variables(生成变量)
       run: |
@@ -171,3 +173,5 @@ jobs:
           - 固件内核版本：${{ env.VERSION_KERNEL }}
           - 固件编译前最后一次➦[主源码](${{ env.REPO_URL }})更新记录
           - ${{ env.VERSION_INFO }}
+          - 源码更新日志
+          ${{ env.VERSION_LOG }}
