@@ -6,7 +6,7 @@ on:
     - cron: 0 15 * * *
 
 env:
-  REPO_URL: https://github.com/breeze303/openwrt-6.x.git
+  REPO_URL: https://github.com/LiBwrt-op/openwrt-6.x.git
   REPO_BRANCH: kernel-6.8
   CONFIG_FILE: configs/x86-64.config
   PATCHES_FILE_1: patches/0003-add-coremark-luci.patch
