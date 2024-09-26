@@ -1,4 +1,4 @@
-#<div align="center">
+<div align="center">
 <div align="left">
 <img width="768" src="https://github.com/breeze303/openwrt-ci/blob/main/images/openwrt.png"/>
 <h1>OpenWrt — 云编译</h1>
