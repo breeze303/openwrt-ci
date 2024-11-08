@@ -1,4 +1,4 @@
-name: IPQ60XX-TEST
+name: IPQ60XX-24.10(NOWIFI)
 
 on:
   workflow_dispatch:
@@ -8,13 +8,13 @@ on:
 env:
   REPO_URL: https://github.com/LiBwrt-op/openwrt-6.x.git
   REPO_BRANCH: openwrt-24.10
-  CONFIG_FILE: configs/ipq60xx-test.config
+  CONFIG_FILE: configs/ipq60xx-nowifi.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
-  FIRMWARE_TAG: IPQ60XX-TEST
+  FIRMWARE_TAG: IPQ60XX-24.10(NOWIFI)
   TZ: Asia/Shanghai
 
 jobs:
@@ -158,8 +158,8 @@ jobs:
         artifacts: ${{ env.FIRMWARE_PATH }}/*
         body: |
           **This is OpenWrt Firmware for ${{ env.FIRMWARE_TAG }}**
-          ### 📒 测试固件(带WIFI)
-          - 这是带WIFI以及NSS的6.6内核固件
+          ### 📒 版本24.10固件(NOWIFI)
+          - 这是NOWIFI，带NSS的6.6内核固件
           - 💻 这是 ${{ env.FIRMWARE_TAG }} 平台使用的 OpenWrt 固件
           - ⚽ 固件源码: ${{ env.REPO_URL }}
           - 💝 源码分支: ${{ env.REPO_BRANCH }}

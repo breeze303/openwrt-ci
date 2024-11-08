@@ -8,7 +8,7 @@ on:
 env:
   REPO_URL: https://github.com/LiBwrt-op/openwrt-6.x.git
   REPO_BRANCH: main
-  CONFIG_FILE: configs/ipq60xx.config
+  CONFIG_FILE: configs/ipq60xx-nowifi.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
