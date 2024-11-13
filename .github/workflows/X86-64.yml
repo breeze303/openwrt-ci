@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
-  REPO_BRANCH: master
+  REPO_BRANCH: openwrt-24.10
   CONFIG_FILE: configs/x86-64.config
   FEEDS_FILE: feeds/x86-64.txt
   DIY_SCRIPT: diy-script.sh
