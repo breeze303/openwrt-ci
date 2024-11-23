@@ -69,6 +69,9 @@ jobs:
         VERSION_INFO=$(git show -s --date=short --format="作者: %an<br/>时间: %cd<br/>内容: %s<br/>hash: %H")
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
 
+    - name: Enable SSR Plus
+      run: cd openwrt && sed -i 's/#src-git helloworld/src-git helloworld/g' ./feeds.conf.default
+      
     - name: Generate Variables(生成变量)
       run: |
         cp $CONFIG_FILE $OPENWRT_PATH/.config
