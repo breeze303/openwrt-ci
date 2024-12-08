@@ -85,6 +85,17 @@ git_sparse_clone master https://github.com/linkease/nas-packages network/service
 git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
 git_sparse_clone main https://github.com/linkease/istore luci
 
+#全能推送PushBot
+git clone --depth=1 https://github.com/zzsj0928/luci-app-pushbot package/luci-app-pushbot
+#关机poweroff
+git clone --depth=1 https://github.com/DongyangHu/luci-app-poweroff package/luci-app-poweroff
+#阿里云盘aliyundrive-webdav
+git clone --depth=1 https://github.com/messense/aliyundrive-webdav package/luci-app-aliyundrive-webdav
+#主题界面edge
+git clone --depth=1 https://github.com/ricemices/luci-theme-edge package/luci-theme-edge
+#分区扩容
+git clone --depth=1 https://github.com/sirpdboy/luci-app-partexp package/luci-app-partexp
+
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
 sed -i '$i uci set nlbwmon.@nlbwmon[0].refresh_interval=2s' package/lean/default-settings/files/zzz-default-settings
