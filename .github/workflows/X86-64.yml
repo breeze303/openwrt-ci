@@ -2,8 +2,8 @@ name: X86-64
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 15 * * *
+  #schedule:
+  #  - cron: 0 15 * * *
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
