@@ -62,6 +62,12 @@ jobs:
     - name: Checkout
       uses: actions/checkout@main
 
+    - name: Initialization environment
+      run : |
+        git config --global user.email "122870904+breeze303@users.noreply.github.com"
+        git config --global user.name "breeze303"
+        sudo timedatectl set-timezone "Asia/Shanghai"
+
     - name: Clone Source Code(克隆源代码)
       run: |
         df -hT $GITHUB_WORKSPACE
