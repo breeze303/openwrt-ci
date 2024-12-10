@@ -68,9 +68,9 @@ jobs:
         ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         df -hT $GITHUB_WORKSPACE
-        git clone "https://${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git" -b $REPO_BRANCH openwrt
+        git clone https://user:${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git -b $REPO_BRANCH openwrt
         cd openwrt
-        git clone "https://${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/nss-packages.git" package/qca-nss
+        git clone https://user:${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/nss-packages.git package/nss package/nss
         rm -rf feeds.conf.default
         cp $FEEDS_FILE feeds.conf.default
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
