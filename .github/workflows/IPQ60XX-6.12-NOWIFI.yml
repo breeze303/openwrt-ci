@@ -17,6 +17,7 @@ env:
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: IPQ60XX-6.12-NOWIFI
   TZ: Asia/Shanghai
+  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   Build:
@@ -60,12 +61,13 @@ jobs:
         temp-reserve-mb: 100
         root-reserve-mb: 1024
 
+    - name: Debug ACCESS_TOKEN
+      run: echo "ACCESS_TOKEN is set:${{ secrets.ACCESS_TOKEN }}"
+
     - name: Checkout
       uses: actions/checkout@main
 
     - name: Clone Source Code(克隆源代码)
-      env: 
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       run: |
         df -hT $GITHUB_WORKSPACE
         git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git openwrt
