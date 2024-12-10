@@ -61,6 +61,14 @@ jobs:
         temp-reserve-mb: 100
         root-reserve-mb: 1024
 
+    - name: Check Git User Info
+      run: |
+        echo "Current Git Config:"
+        git config --global --get user.name || echo "No Git user.name configured"
+        git config --global --get user.email || echo "No Git user.email configured"
+        whoami
+
+
     - name: Checkout
       uses: actions/checkout@main
 
