@@ -6,8 +6,8 @@ on:
     - cron: 0 19 * * *
 
 env:
-  REPO_URL: LiBwrt/kernel-6.12.git
-  REPO_BRANCH: main
+  REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
+  REPO_BRANCH: kernel-6.12
   CONFIG_FILE: configs/ipq60xx-6.12-nowifi.config
   FEEDS_FILE: feeds/6.12.txt
   DIY_SCRIPT: diy-script.sh
@@ -17,7 +17,6 @@ env:
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: IPQ60XX-6.12-NOWIFI
   TZ: Asia/Shanghai
-  ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
   Build:
@@ -51,8 +50,6 @@ jobs:
         sudo -E apt-get -y autoremove --purge
         sudo -E apt-get -y clean
         sudo timedatectl set-timezone "$TZ"
-        git config --global user.email "grapenskrskr@gmail.com"
-        git config --global user.name "breeze303"
 
     - name: Combine Disks(合并磁盘)
       uses: easimon/maximize-build-space@master
@@ -61,24 +58,14 @@ jobs:
         temp-reserve-mb: 100
         root-reserve-mb: 1024
 
-    - name: Check Git User Info
-      run: |
-        echo "Current Git Config:"
-        git config --global --get user.name || echo "No Git user.name configured"
-        git config --global --get user.email || echo "No Git user.email configured"
-        whoami
-
-
     - name: Checkout
       uses: actions/checkout@main
 
     - name: Clone Source Code(克隆源代码)
       run: |
         df -hT $GITHUB_WORKSPACE
-        git clone https://user:${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git -b $REPO_BRANCH openwrt
+        git clone --depth 1 -b $REPO_BRANCH $REPO_URL openwrt
         cd openwrt
-        rm -rf feeds.conf.default
-        cp $FEEDS_FILE feeds.conf.default
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         VERSION_INFO=$(git show -s --date=short --format="作者: %an<br/>时间: %cd<br/>内容: %s<br/>hash: %H")
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
