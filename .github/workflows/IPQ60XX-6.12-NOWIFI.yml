@@ -61,18 +61,14 @@ jobs:
         temp-reserve-mb: 100
         root-reserve-mb: 1024
 
-    - name: Debug ACCESS_TOKEN
-      run: echo "ACCESS_TOKEN is set:${{ secrets.ACCESS_TOKEN }}"
-
     - name: Checkout
       uses: actions/checkout@main
 
     - name: Clone Source Code(克隆源代码)
       run: |
         df -hT $GITHUB_WORKSPACE
-        git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git openwrt
+        git clone https://user:${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/kernel-6.12.git -b $REPO_BRANCH openwrt
         cd openwrt
-        git clone https://${{ secrets.ACCESS_TOKEN }}@github.com/LiBwrt/nss-packages.git package/nss
         rm -rf feeds.conf.default
         cp $FEEDS_FILE feeds.conf.default
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
