@@ -2,8 +2,8 @@ name: IPQ60XX-24.10
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 19 * * *
+#  schedule:
+#    - cron: 0 19 * * *
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
