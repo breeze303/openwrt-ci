@@ -88,14 +88,19 @@ git_sparse_clone main https://github.com/linkease/istore luci
 
 #全能推送PushBot
 git clone --depth=1 https://github.com/zzsj0928/luci-app-pushbot package/luci-app-pushbot
+git clone https://github.com/zzsj0928/luci-app-pushbot package/luci-app-pushbot
 #关机poweroff
 git clone --depth=1 https://github.com/DongyangHu/luci-app-poweroff package/luci-app-poweroff
+git clone https://github.com/DongyangHu/luci-app-poweroff.git package/luci-app-poweroff
 #阿里云盘aliyundrive-webdav
 git clone --depth=1 https://github.com/messense/aliyundrive-webdav package/luci-app-aliyundrive-webdav
+git clone https://hub.fastgit.xyz/messense/aliyundrive-webdav.git package/luci-app-aliyundrive-webdav
 #主题界面edge
 git clone --depth=1 https://github.com/ricemices/luci-theme-edge package/luci-theme-edge
+git clone https://hub.fastgit.xyz/ricemices/luci-theme-edge.git package/luci-theme-edge
 #分区扩容
 git clone --depth=1 https://github.com/sirpdboy/luci-app-partexp package/luci-app-partexp
+git clone https://github.com/sirpdboy/luci-app-partexp.git package/luci-app-partexp
 
 # 在线用户
 git_sparse_clone main https://github.com/haiibo/packages luci-app-onliner
