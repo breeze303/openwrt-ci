@@ -110,9 +110,9 @@ jobs:
 
     - name: run DIY script(运行自定义脚本)
       run: |
-        chmod +x '${{ env.DIY_SCRIPT }}'
-        cd "$OPENWRT_PATH"
-        "${{ env.GITHUB_WORKSPACE }}/${{ env.DIY_SCRIPT }}"
+        chmod +x ${DIY_SCRIPT}
+        cd $OPENWRT_PATH
+        ${GITHUB_WORKSPACE}/${DIY_SCRIPT}
 
     - name: Download DL Package(下载DL软件包)
       run: |
