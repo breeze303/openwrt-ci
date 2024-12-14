@@ -68,6 +68,12 @@ jobs:
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         VERSION_INFO=$(git show -s --date=short --format="作者: %an<br/>时间: %cd<br/>内容: %s<br/>hash: %H")
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
+        
+    - name: run DIY script(运行自定义脚本)
+      run: |
+        chmod +x ${DIY_SCRIPT}
+        cd $OPENWRT_PATH
+        ${GITHUB_WORKSPACE}/${DIY_SCRIPT}
 
     - name: Generate Variables(生成变量)
       run: |
