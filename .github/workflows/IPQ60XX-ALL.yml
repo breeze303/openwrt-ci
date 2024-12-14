@@ -108,9 +108,9 @@ jobs:
         [ -e files ] && mv files $OPENWRT_PATH/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_PATH/.config
 
-      name: run DIY script(运行自定义脚本)
+    - name: run DIY script(运行自定义脚本)
       run: |
-      chmod +x ${DIY_SCRIPT}
+        chmod +x ${DIY_SCRIPT}
         cd $OPENWRT_PATH
         ${GITHUB_WORKSPACE}/${DIY_SCRIPT}
 
