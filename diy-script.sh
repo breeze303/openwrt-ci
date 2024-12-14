@@ -93,7 +93,7 @@ git clone --depth=1 https://github.com/zzsj0928/luci-app-pushbot package/luci-ap
 git clone --depth=1 https://github.com/DongyangHu/luci-app-poweroff package/luci-app-poweroff
 #git_sparse_clone main https://github.com/DongyangHu/luci-app-poweroff package/luci-app-poweroff
 #阿里云盘aliyundrive-webdav
-git clone --depth=1 https://github.com/messense/aliyundrive-webdav package/luci-app-aliyundrive-webdav
+#git clone --depth=1 https://github.com/messense/aliyundrive-webdav package/luci-app-aliyundrive-webdav
 #git_sparse_clone main https://github.com/messense/aliyundrive-webdav package/luci-app-aliyundrive-webdav
 #主题界面edge
 git clone --depth=1 https://github.com/ricemices/luci-theme-edge package/luci-theme-edge
