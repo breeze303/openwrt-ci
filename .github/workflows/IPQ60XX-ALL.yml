@@ -135,7 +135,8 @@ jobs:
         make -j1 V=sc
         exit 1
         fi
-      fi
+        fi
+        
         echo "status=success" >> $GITHUB_OUTPUT
         echo "DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
