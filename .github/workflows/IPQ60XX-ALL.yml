@@ -110,7 +110,7 @@ jobs:
 
       name: run DIY script(运行自定义脚本)
       run: |
-      chmod +x diy-script.sh
+      chmod +x "${DIY_SCRIPT}"
         cd $OPENWRT_PATH
         ${GITHUB_WORKSPACE}/${DIY_SCRIPT}
 
