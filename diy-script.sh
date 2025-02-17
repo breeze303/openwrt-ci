@@ -42,8 +42,8 @@ function git_sparse_clone() {
 
 # 科学上网插件
 git clone --depth=1 -b main https://github.com/fw876/helloworld package/luci-app-ssr-plus
-git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall
-git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
+#git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall
+#git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/luci-app-passwall
 #git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2 package/luci-app-passwall2
 #git_sparse_clone master https://github.com/vernesong/OpenClash luci-app-openclash
 
@@ -80,6 +80,12 @@ cp -f $GITHUB_WORKSPACE/images/bg1.jpg package/luci-theme-argon/htdocs/luci-stat
 # DDNS.to
 #git_sparse_clone main https://github.com/linkease/nas-packages-luci luci/luci-app-ddnsto
 #git_sparse_clone master https://github.com/linkease/nas-packages network/services/ddnsto
+
+# DDNS-GO
+src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go.git
+
+#CloudFlared
+#src-git ddns-go https://github.com/sirpdboy/luci-app-ddns-go.git
 
 # iStore
 #git_sparse_clone main https://github.com/linkease/istore-ui app-store-ui
