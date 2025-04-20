@@ -1,4 +1,4 @@
-#UPDAYE
+# UPDATE 
 src-git packages https://github.com/immortalwrt/packages.git
 src-git luci https://github.com/immortalwrt/luci.git
 src-git routing https://git.openwrt.org/feed/routing.git
