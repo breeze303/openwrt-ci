@@ -15,7 +15,7 @@ env:
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: IPQ807x-WIFI
-  TZ: Asia/Kual_Lumpur
+  TZ: Asia/Kuala_Lumpur
 
 jobs:
   Build:
