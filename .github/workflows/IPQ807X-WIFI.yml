@@ -101,6 +101,7 @@ jobs:
     - name: Load Custom Configuration
       run: |
         [ -e files ] && mv files $OPENWRT_PATH/files
+        cd $OPENWRT_PATH
         curl -L -o .config https://raw.githubusercontent.com/iFHax/openwrt-ci/refs/heads/main/raw/aw1000.config
 
     - name: Download DL Package
