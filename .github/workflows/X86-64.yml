@@ -102,6 +102,7 @@ jobs:
         rm -rf feeds/luci/applications/luci-app-daed
         rm -rf feeds/packages/net/daed
         mv feeds/passwall/luci-app-passwall feeds/luci/applications/
+        curl -sSL https://raw.githubusercontent.com/chenmozhijin/turboacc/luci/add_turboacc.sh -o add_turboacc.sh && bash add_turboacc.sh --no-sfe
         ./scripts/feeds install -a
 
     - name: Load Custom Configuration(加载自定义配置)
