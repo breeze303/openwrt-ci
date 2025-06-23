@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: kernel-6.12
+  REPO_BRANCH: k6.12-nss
   CONFIG_FILE: configs/ipq60xx-6.12-nowifi.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
