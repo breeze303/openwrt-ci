@@ -98,6 +98,8 @@ jobs:
         git clone --depth 1 https://github.com/breeze303/luci-app-lucky package/lucky
         git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
         git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/dae
+        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git 
+        mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
         rm -rf feeds/luci/applications/luci-app-passwall
         rm -rf feeds/luci/applications/luci-app-daed
         rm -rf feeds/packages/net/daed
