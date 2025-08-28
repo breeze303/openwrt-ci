@@ -1,4 +1,4 @@
-name: IPQ60XX-24.10(NOWIFI)
+name: ZN-M2(NOWIFI)
 
 on:
   workflow_dispatch:
@@ -14,7 +14,7 @@ env:
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
-  FIRMWARE_TAG: IPQ60XX-24.10(NOWIFI)
+  FIRMWARE_TAG: ZN-M2(NOWIFI)
   TZ: Asia/Shanghai
 
 jobs:
