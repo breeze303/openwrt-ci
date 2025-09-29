@@ -19,7 +19,7 @@ env:
 
 jobs:
   Build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check Server Performance(检查服务器性能)
@@ -40,16 +40,14 @@ jobs:
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
-        docker rmi $(docker images -q)
-        sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android $AGENT_TOOLSDIRECTORY
-        sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-        sudo -E apt-get -y update
-        sudo -E apt-get -y install $(curl -fsSL is.gd/depends_ubuntu_2204)
+        sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
+        sudo -E apt -yqq install dos2unix
+        sudo -E apt -yqq install libfuse-dev
+        sudo -E apt -yqq autoremove --purge
+        sudo -E apt -yqq autoclean
+        sudo -E apt -yqq clean
         sudo -E systemctl daemon-reload
-        sudo -E apt-get -y autoremove --purge
-        sudo -E apt-get -y clean
         sudo timedatectl set-timezone "$TZ"
-        sudo -E apt-get -y install dwarves clang llvm
 
     - name: Combine Disks(合并磁盘)
       uses: easimon/maximize-build-space@master
@@ -98,7 +96,8 @@ jobs:
         git clone --depth 1 https://github.com/breeze303/luci-app-lucky package/lucky
         git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
         git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/dae
-        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git 
+        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
+        git clone --depth 1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
         mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
         rm -rf feeds/luci/applications/luci-app-passwall
         rm -rf feeds/luci/applications/luci-app-daed
@@ -145,6 +144,7 @@ jobs:
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
         cat sha256sums
+        echo "VERSION_KERNEL=$(find -type f -name "*.manifest" -exec grep -oP '^kernel - \K.*?(?=~|-\d+-)' {} \;)" >> $GITHUB_ENV
         cp $OPENWRT_PATH/.config build.config
         mv -f $OPENWRT_PATH/bin/packages/*/*/*.apk packages
         tar -zcf Packages.tar.gz packages
@@ -170,12 +170,12 @@ jobs:
         body: |
           **This is OpenWrt Firmware for ${{ env.FIRMWARE_TAG }}**
           ### 📒 固件信息(X86-64)
-          - 这是x86-64-6.8kernel
           - 💻 这是 ${{ env.FIRMWARE_TAG }} 平台使用的 OpenWrt 固件
           - ⚽ 固件源码: ${{ env.REPO_URL }}
           - 💝 源码分支: ${{ env.REPO_BRANCH }}
           - 🌐 默认地址: 192.168.1.1
           - 🔑 默认密码: password
           ### 🧊 固件版本
+          - 固件内核版本：${{ env.VERSION_KERNEL }}
           - 固件编译前最后一次➦[主源码](${{ env.REPO_URL }})更新记录
           - ${{ env.VERSION_INFO }}
