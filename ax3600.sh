@@ -16,8 +16,8 @@ sed -i 's/192.168.1.1/192.168.88.1/g' package/base-files/files/bin/config_genera
 sed -i 's/^root:::0:99999:7:::/#&/' package/base-files/files/etc/shadow
 sed -i '/^#root:::0:99999:7:::/a\root:$5$xmxpvLvUA0puov/Q$8VyXs7lx90md2yVksUedqKP5JyCQzpU7wY8JyqQv9e/:20389:0:99999:7:::' package/base-files/files/etc/shadow
 # 移除 openwrt feeds 自带的核心库
-# rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
-# git clone https://github.com/xiaorouji/openwrt-passwall-packages package/passwall/passwall-packages
+rm -rf feeds/packages/net/{xray-core,v2ray-geodata,sing-box,chinadns-ng,dns2socks,hysteria,ipt2socks,microsocks,naiveproxy,shadowsocks-libev,shadowsocks-rust,shadowsocksr-libev,simple-obfs,tcping,trojan-plus,tuic-client,v2ray-plugin,xray-plugin,geoview,shadow-tls}
+git clone https://github.com/xiaorouji/openwrt-passwall-packages package/passwall/passwall-packages
 # 移除 openwrt feeds 过时的luci版本
-# rm -rf feeds/luci/applications/luci-app-passwall
-# git clone https://github.com/xiaorouji/openwrt-passwall2 package/passwall/passwall-luci
+rm -rf feeds/luci/applications/luci-app-passwall
+git clone https://github.com/xiaorouji/openwrt-passwall2 package/passwall/passwall-luci
