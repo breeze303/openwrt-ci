@@ -3,7 +3,7 @@ name: X86-64-K6.18
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 15 * * *
+    - cron: 0 16 * * *
 
 env:
   REPO_URL: https://github.com/LiBwrt/k6.18.git
@@ -19,7 +19,7 @@ env:
 
 jobs:
   Build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check Server Performance(检查服务器性能)
