@@ -2,8 +2,6 @@ name: IPQ60XX-6.12-WIFI
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 19 * * *
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
@@ -19,7 +17,7 @@ env:
 
 jobs:
   Build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Check Server Performance(检查服务器性能)
