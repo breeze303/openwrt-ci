@@ -45,6 +45,12 @@ jobs:
           formatted_timestamp=$(date --date="$timestamp" "+%Y-%m-%d")
           echo "version=$latest_commit-wing_$latest_wing_commit-core_$latest_core_commit" >> "$GITHUB_ENV"
 
+      - name: Check Directory
+        run: |
+          echo "正在检查当前目录下的文件..."
+          ls -F
+          # 如果这里没有显示 packages_ci/，那就是 Clone 步骤写错了
+
       - name: Building packages
         uses: sbwml/openwrt-gh-action-sdk@go1.25
         env:
