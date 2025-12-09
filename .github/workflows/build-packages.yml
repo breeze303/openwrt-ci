@@ -18,7 +18,7 @@ jobs:
       - name: Maximize build space & Add Swap
         uses: easimon/maximize-build-space@master
         with:
-          swap-size-mb: 8192 # 增加 8GB 的 Swap
+          swap-size-mb: 16384 # 增加 16GB 的 Swap
           
       - uses: actions/checkout@main
         with:
@@ -30,7 +30,7 @@ jobs:
           
       - name: Get node-empty
         run: |
-          git clone https://github.com/sbwml/node-empty
+          git clone https://github.com/sbwml/node-empty packages_ci
 
       - name: Init build dependencies
         env:
@@ -76,7 +76,7 @@ jobs:
           name: daed_${{ env.version }}
           allowUpdates: true
           tag: daed_${{ env.version }}
-          commit: master
+          commit: main
           token: ${{secrets.GITHUB_TOKEN}}
           replacesArtifacts: true
           artifacts: "bin/packages/${{ matrix.arch }}/*/*.apk"
