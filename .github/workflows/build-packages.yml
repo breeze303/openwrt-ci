@@ -25,9 +25,7 @@ jobs:
 
       - name: Clone source code
         run: |
-          git clone https://github.com/daeuniverse/luci-app-daed.git
-          git clone https://github.com/daeuniverse/dae.git
-          git clone https://github.com/daeuniverse/daed.git
+          git clone https://github.com/QiuSimons/luci-app-daed.git
 
       - name: Init build dependencies
         env:
