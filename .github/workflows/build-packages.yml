@@ -18,14 +18,14 @@ jobs:
       - uses: actions/checkout@main
         with:
           fetch-depth: 0
-
+      - name: Clone specific package
+        run: |
+          mkdir -p packages_ci
+          git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git packages_ci/luci-app-daed
+          
       - name: Get node-empty
         run: |
           git clone https://github.com/sbwml/node-empty
-
-      - name: Clone source code
-        run: |
-          git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git
 
       - name: Init build dependencies
         env:
@@ -50,7 +50,7 @@ jobs:
         uses: sbwml/openwrt-gh-action-sdk@go1.25
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
-          FEEDNAME: packages_ci
+          FEED_DIR: packages_ci
           PACKAGES: luci-app-daed
           NO_REFRESH_CHECK: true
           V: s
@@ -59,7 +59,7 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: ${{ matrix.arch }}
-          path: bin/packages/${{ matrix.arch }}/packages_ci/*.apk
+          path: bin/packages/${{ matrix.arch }}/*/*.apk
 
       - name: Upload packages
         uses: ncipollo/release-action@v1
@@ -70,4 +70,4 @@ jobs:
           commit: master
           token: ${{secrets.GITHUB_TOKEN}}
           replacesArtifacts: true
-          artifacts: "bin/packages/${{ matrix.arch }}/packages_ci/*.apk"
+          artifacts: "bin/packages/${{ matrix.arch }}/*/*.apk"
