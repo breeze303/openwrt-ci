@@ -49,13 +49,12 @@ jobs:
         run: |
           echo "正在检查当前目录下的文件..."
           ls -F
-          # 如果这里没有显示 packages_ci/，那就是 Clone 步骤写错了
-
+          ls -R ${{ github.workspace }}/packages_ci
       - name: Building packages
         uses: sbwml/openwrt-gh-action-sdk@go1.25
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
-          FEED_DIR: packages_ci
+          FEED_DIR: ${{ github.workspace }}/packages_ci
           PACKAGES: luci-app-daed
           NO_REFRESH_CHECK: true
           V: s
