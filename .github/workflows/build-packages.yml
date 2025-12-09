@@ -23,6 +23,12 @@ jobs:
         run: |
           git clone https://github.com/sbwml/node-empty
 
+      - name: Clone source code
+        run: |
+          git clone https://github.com/daeuniverse/luci-app-daed.git
+          git clone https://github.com/daeuniverse/dae.git
+          git clone https://github.com/daeuniverse/daed.git
+
       - name: Init build dependencies
         env:
           DEBIAN_FRONTEND: noninteractive
