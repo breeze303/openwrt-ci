@@ -21,7 +21,7 @@ jobs:
       - name: Clone specific package
         run: |
           mkdir -p packages_ci
-          git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git packages_ci/luci-app-daed
+          git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git packages_ci/dae
           
       - name: Get node-empty
         run: |
