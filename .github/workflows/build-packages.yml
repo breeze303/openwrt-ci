@@ -15,6 +15,11 @@ jobs:
           - SNAPSHOT
 
     steps:
+      - name: Maximize build space & Add Swap
+        uses: easimon/maximize-build-space@master
+        with:
+          swap-size-mb: 8192 # 增加 8GB 的 Swap
+          
       - uses: actions/checkout@main
         with:
           fetch-depth: 0
@@ -44,11 +49,6 @@ jobs:
           timestamp=$(curl -s https://api.github.com/repos/daeuniverse/daed/commits/main | jq -r '.commit.author.date')
           formatted_timestamp=$(date --date="$timestamp" "+%Y-%m-%d")
           echo "version=$latest_commit-wing_$latest_wing_commit-core_$latest_core_commit" >> "$GITHUB_ENV"
-
-      - name: Maximize build space & Add Swap
-        uses: easimon/maximize-build-space@master
-        with:
-          swap-size-mb: 8192 # 增加 8GB 的 Swap
 
       - name: Check Directory
         run: |
