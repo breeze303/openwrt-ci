@@ -12,7 +12,7 @@ jobs:
         arch:
           - x86_64
         sdk:
-          - openwrt-24.10
+          - SNAPSHOT
 
     steps:
       - uses: actions/checkout@main
@@ -51,7 +51,7 @@ jobs:
         env:
           ARCH: ${{ matrix.arch }}-${{ matrix.sdk }}
           FEEDNAME: packages_ci
-          PACKAGES: luci-app-daed
+          PACKAGES: luci-app-daed daed
           NO_REFRESH_CHECK: true
           V: s
 
