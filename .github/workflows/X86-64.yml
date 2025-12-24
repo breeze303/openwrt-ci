@@ -95,7 +95,7 @@ jobs:
         git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git feeds/passwall
         git clone --depth 1 https://github.com/breeze303/luci-app-lucky.git package/lucky
         git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
-        git clone --depth 1 https://github.com/breeze303/luci-app-daed.git package/dae
+        git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git package/dae
         git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
         git clone --depth 1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
         mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
