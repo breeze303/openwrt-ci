@@ -1,20 +1,20 @@
-name: IPQ60XX-6.12-NOWIFI
+name: X86-64-K6.18
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 19 * * *
+    - cron: 0 16 * * *
 
 env:
-  REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: main-nss
-  CONFIG_FILE: configs/ipq60xx-6.12-nowifi.config
-  DIY_SCRIPT: libwrt.sh
+  REPO_URL: https://github.com/LiBwrt/k6.18.git
+  REPO_BRANCH: dev
+  CONFIG_FILE: configs/x86-64-k6.18.config
+  DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
   UPLOAD_BIN_DIR: false
   FIRMWARE_RELEASE: true
-  FIRMWARE_TAG: IPQ60XX-6.12-NOWIFI
+  FIRMWARE_TAG: X86-64-K6.18
   TZ: Asia/Shanghai
 
 jobs:
@@ -62,13 +62,12 @@ jobs:
     - name: Clone Source Code(克隆源代码)
       run: |
         df -hT $GITHUB_WORKSPACE
-        git clone --depth 1 -b $REPO_BRANCH $REPO_URL openwrt
+        AUTH_REPO_URL=$(echo "$REPO_URL" | sed "s|://|://x-access-token:${{ secrets.REPO_TOKEN }}@|")
+        git clone "$AUTH_REPO_URL" -b "$REPO_BRANCH" openwrt
         cd openwrt
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         VERSION_INFO=$(git show -s --date=short --format="作者: %an<br/>时间: %cd<br/>内容: %s<br/>hash: %H")
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
-        VERSION_KERNEL=$(grep -oP 'LINUX_KERNEL_HASH-\K[0-9]+\.[0-9]+\.[0-9]+' target/linux/generic/kernel-6.12)
-        echo "VERSION_KERNEL=$VERSION_KERNEL" >> $GITHUB_ENV
 
     - name: Generate Variables(生成变量)
       run: |
@@ -94,15 +93,23 @@ jobs:
       run: |
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
+        git clone --depth 1 https://github.com/xiaorouji/openwrt-passwall.git feeds/passwall
+        git clone --depth 1 https://github.com/breeze303/luci-app-lucky package/lucky
+        git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
+        git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/dae
+        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
+        git clone --depth 1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
+        mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
+        rm -rf feeds/luci/applications/luci-app-passwall
+        rm -rf feeds/luci/applications/luci-app-daed
+        rm -rf feeds/packages/net/daed
+        mv feeds/passwall/luci-app-passwall feeds/luci/applications/
         ./scripts/feeds install -a
-  
+
     - name: Load Custom Configuration(加载自定义配置)
       run: |
         [ -e files ] && mv files $OPENWRT_PATH/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_PATH/.config
-        chmod +x $DIY_SCRIPT
-        cd $OPENWRT_PATH
-        $GITHUB_WORKSPACE/$DIY_SCRIPT
 
     - name: Download DL Package(下载DL软件包)
       run: |
@@ -163,8 +170,8 @@ jobs:
         artifacts: ${{ env.FIRMWARE_PATH }}/*
         body: |
           **This is OpenWrt Firmware for ${{ env.FIRMWARE_TAG }}**
-          ### 📒 固件信息(无WIFI)
-          - 无WIFI带有线NSS的6.12内核固件
+          ### 📒 固件信息(X86-64-K6.18) 测试版本
+          - 这是x86-64-6.18-kernel
           - 💻 这是 ${{ env.FIRMWARE_TAG }} 平台使用的 OpenWrt 固件
           - ⚽ 固件源码: ${{ env.REPO_URL }}
           - 💝 源码分支: ${{ env.REPO_BRANCH }}
