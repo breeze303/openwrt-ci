@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
-  REPO_BRANCH: 25.12-nss
+  REPO_BRANCH: main-nss
   CONFIG_FILE: configs/ipq60xx-6.12-nowifi.config
   DIY_SCRIPT: libwrt.sh
   CLASH_KERNEL: amd64
@@ -67,8 +67,6 @@ jobs:
         echo "OPENWRT_PATH=$PWD" >> $GITHUB_ENV
         VERSION_INFO=$(git show -s --date=short --format="作者: %an<br/>时间: %cd<br/>内容: %s<br/>hash: %H")
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
-        VERSION_KERNEL=$(grep -oP 'LINUX_KERNEL_HASH-\K[0-9]+\.[0-9]+\.[0-9]+' target/linux/generic/kernel-6.12)
-        echo "VERSION_KERNEL=$VERSION_KERNEL" >> $GITHUB_ENV
 
     - name: Generate Variables(生成变量)
       run: |
@@ -94,6 +92,10 @@ jobs:
       run: |
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
+        git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git package/new/custom
+        mv package/new/custom/luci-app-netspeedtest  package/new
+        mv package/new/custom/speedtest-cli package/new
+        rm -rf package/new/custom
         ./scripts/feeds install -a
   
     - name: Load Custom Configuration(加载自定义配置)
@@ -140,7 +142,7 @@ jobs:
         cat sha256sums
         echo "VERSION_KERNEL=$(find -type f -name "*.manifest" -exec grep -oP '^kernel - \K.*?(?=~|-\d+-)' {} \;)" >> $GITHUB_ENV
         cp $OPENWRT_PATH/.config build.config
-        mv -f $OPENWRT_PATH/bin/packages/*/*/*.ipk packages
+        mv -f $OPENWRT_PATH/bin/packages/*/*/*.apk packages
         tar -zcf Packages.tar.gz packages
         rm -rf packages feeds.buildinfo version.buildinfo
         echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
