@@ -104,6 +104,7 @@ jobs:
         rm -rf feeds/luci/applications/luci-app-smartdns
         git clone --depth 1 https://github.com/pymumu/luci-app-smartdns.git feeds/luci/applications/luci-app-smartdns
         wget -O feeds/packages/net/smartdns/Makefile https://raw.githubusercontent.com/pymumu/openwrt-smartdns/master/Makefile
+        sed -i 's/609fec024396a3a26278ef9fe7bd49aeca478e3163fc53c699a5f402fa0320f0/f8bfb91ae0992dd62392ebb2b7d968d514f7cbc3cc6a5d975dafdd6b27bf0a0c/g' feeds/packages/net/smartdns/Makefile
         mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
         rm -rf package/dae/luci-app-daed
         rm -rf feeds/packages/net/daed
