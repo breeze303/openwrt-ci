@@ -94,16 +94,21 @@ jobs:
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         git clone --depth 1 https://github.com/Openwrt-Passwall/openwrt-passwall.git package/passwall
-        git clone --depth 1 https://github.com/breeze303/luci-app-lucky package/lucky
+        rm -rf feeds/luci/applications/luci-app-passwall
+        mv package/passwall/luci-app-passwall feeds/luci/applications
+        rm -rf package/passwall
+        git clone --depth 1 https://github.com/breeze303/luci-app-lucky.git package/lucky
         git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
-        git clone --depth 1 https://github.com/QiuSimons/luci-app-daed package/dae
+        git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git package/dae
         git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
         git clone --depth 1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
+        rm -rf feeds/luci/applications/luci-app-smartdns
+        git clone --depth 1 https://github.com/pymumu/luci-app-smartdns.git feeds/luci/applications/luci-app-smartdns
+        wget -O feeds/packages/net/smartdns/Makefile https://raw.githubusercontent.com/pymumu/openwrt-smartdns/master/Makefile
+        sed -i 's/609fec024396a3a26278ef9fe7bd49aeca478e3163fc53c699a5f402fa0320f0/f8bfb91ae0992dd62392ebb2b7d968d514f7cbc3cc6a5d975dafdd6b27bf0a0c/g' feeds/packages/net/smartdns/Makefile
         mkdir -p package/netspeedtest && mv openwrt_pkgs/luci-app-netspeedtest openwrt_pkgs/speedtest-cli package/netspeedtest/ && rm -rf openwrt_pkgs
-        rm -rf feeds/luci/applications/luci-app-passwall
-        rm -rf feeds/luci/applications/luci-app-daed
+        rm -rf package/dae/luci-app-daed
         rm -rf feeds/packages/net/daed
-        mv feeds/passwall/luci-app-passwall feeds/luci/applications/
         ./scripts/feeds install -a
 
     - name: Load Custom Configuration(加载自定义配置)
