@@ -96,7 +96,7 @@ jobs:
         rm -rf feeds/luci/applications/luci-app-passwall
         mv package/passwall/luci-app-passwall feeds/luci/applications
         rm -rf package/passwall
-        git clone --depth 1 https://github.com/breeze303/luci-app-lucky.git package/lucky
+        git clone --depth 1 https://github.com/sirpdboy/luci-app-lucky.git package/lucky
         git clone --depth 1 https://github.com/nikkinikki-org/OpenWrt-nikki.git package/nik
         git clone --depth 1 https://github.com/QiuSimons/luci-app-daed.git package/dae
         git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
