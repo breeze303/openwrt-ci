@@ -98,15 +98,13 @@ jobs:
   
     - name: Load Custom Configuration(加载自定义配置)
       run: |
-        [ -e files ] && mv files $OPENWRT_PATH/files
-        # 这一步会将你刚才生成的完整 .config 覆盖到源码目录
-        [ -e $CONFIG_FILE ] && cp $CONFIG_FILE $OPENWRT_PATH/.config
+        # 将配置文件移动到源码目录
+        cp $CONFIG_FILE $OPENWRT_PATH/.config
+        # 赋予脚本权限
         chmod +x $DIY_SCRIPT
-        # 执行脚本，脚本内包含 feeds 更新和插件克隆
+        # 关键：在运行脚本时传递 OPENWRT_PATH 变量
+        export OPENWRT_PATH=$OPENWRT_PATH
         ./$DIY_SCRIPT
-        # 脚本执行完后再次切换到源码目录进行最后的配置校验
-        cd $OPENWRT_PATH
-        make defconfig
 
     - name: Download DL Package(下载DL软件包)
       run: |
