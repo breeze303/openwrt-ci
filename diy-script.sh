@@ -20,8 +20,8 @@ git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/luci-a
 # ⚠️ SmartDNS 处理方案：
 # 如果之前报错，我们不再手动 git clone smartdns，而是依赖 feeds。
 # 如果你一定要用特定版本，请克隆这个更通用的版本：
-git clone --depth=1 https://github.com/pymumu/openwrt-smartdns package/smartdns
-git clone --depth=1 -b lede https://github.com/pymumu/luci-app-smartdns package/luci-app-smartdns
+# git clone --depth=1 https://github.com/pymumu/openwrt-smartdns package/smartdns
+# git clone --depth=1 -b lede https://github.com/pymumu/luci-app-smartdns package/luci-app-smartdns
 
 # MosDNS
 # git clone --depth=1 https://github.com/sbwml/luci-app-mosdns package/luci-app-mosdns
