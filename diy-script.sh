@@ -28,19 +28,38 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/l
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
+# 在 scripts/feeds install -a 之后添加：
+# 强制移除所有可能导致冲突的旧版防火墙依赖项
+sed -i 's/CONFIG_PACKAGE_iptables-zz-legacy=y/# CONFIG_PACKAGE_iptables-zz-legacy is not set/g' .config
+sed -i 's/CONFIG_PACKAGE_ip6tables-zz-legacy=y/# CONFIG_PACKAGE_ip6tables-zz-legacy is not set/g' .config
+
+# 确保选中 nftables
+echo "CONFIG_PACKAGE_iptables-nft=y" >> .config
+echo "CONFIG_PACKAGE_ip6tables-nft=y" >> .config
+
 # 5. 核心修正：将配置强制写入 .config 
 # 理由：在 feeds 安装后强行锁定 y，防止 make defconfig 自动删除未识别的项
 cat >> .config <<EOF
+# 防火墙架构统一
+CONFIG_PACKAGE_iptables-nft=y
+# CONFIG_PACKAGE_iptables-zz-legacy is not set
+# CONFIG_PACKAGE_iptables is not set
+# PassWall2 运行依赖
 CONFIG_PACKAGE_luci-app-passwall2=y
 CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy=y
 CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Sing-Box=y
 CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Xray=y
 CONFIG_PACKAGE_luci-i18n-passwall2-zh-cn=y
 CONFIG_PACKAGE_sing-box=y
+# 核心依赖
 CONFIG_PACKAGE_ca-bundle=y
 CONFIG_PACKAGE_libopenssl=y
 CONFIG_PACKAGE_libmbedtls=y
 EOF
+
+# 关键修正：在最后运行 defconfig 之前，手动在配置文件中删除 legacy 项
+sed -i '/CONFIG_PACKAGE_iptables-zz-legacy/d' .config
+echo "# CONFIG_PACKAGE_iptables-zz-legacy is not set" >> .config
 
 # 6. 最后执行一次 defconfig 刷新依赖树
 make defconfig
