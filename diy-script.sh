@@ -32,24 +32,27 @@ find ./feeds/ -name "Makefile" | xargs sed -i 's/xtables-legacy//g'
 
 # 6. 写入最终配置补丁
 cat >> .config <<EOF
-# 防火墙强制现代版
+# 1. 强制统一防火墙至 NFT (解决 6.12 内核兼容性)
 CONFIG_PACKAGE_iptables-nft=y
 CONFIG_PACKAGE_ip6tables-nft=y
 CONFIG_PACKAGE_xtables-nft=y
 # CONFIG_PACKAGE_iptables-zz-legacy is not set
-# CONFIG_PACKAGE_xtables-legacy is not set
 
-# PassWall2 核心精简 (只保留 Sing-Box/Xray)
-CONFIG_PACKAGE_luci-app-passwall2=y
-CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
-CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_SingBox=y
-CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Xray=y
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Libev_Client is not set
-# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client is not set
+# 2. 补全缺失的证书
+CONFIG_PACKAGE_ca-bundle=y
 
-# 移除内嵌数据库 (减小体积)
+# 3. 彻底移除旧版 SS-libev 以防依赖冲突 (Sing-Box 已包含其功能)
+# CONFIG_PACKAGE_shadowsocks-libev-ss-local is not set
+# CONFIG_PACKAGE_shadowsocks-libev-ss-redir is not set
+# CONFIG_PACKAGE_shadowsocksr-libev-ssr-local is not set
+# CONFIG_PACKAGE_shadowsocksr-libev-ssr-redir is not set
+
+# 4. 移除体积巨大的 Geo 数据 (改为刷机后在线更新)
 # CONFIG_PACKAGE_v2ray-geoip is not set
 # CONFIG_PACKAGE_v2ray-geosite is not set
+
+# 5. 确保 PassWall2 启用 NFT 代理模式
+CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
 EOF
 
 # 7. 刷新依赖树
