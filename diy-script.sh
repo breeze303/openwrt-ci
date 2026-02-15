@@ -52,6 +52,7 @@ CONFIG_PACKAGE_ca-bundle=y
 # 强制不编译规则包 (确保体积最小化)
 # CONFIG_PACKAGE_v2ray-geoip is not set
 # CONFIG_PACKAGE_v2ray-geosite is not set
+# CONFIG_PACKAGE_geoview is not set
 # CONFIG_PACKAGE_shadowsocks-libev-ss-local is not set
 # CONFIG_PACKAGE_shadowsocks-libev-ss-redir is not set
 
