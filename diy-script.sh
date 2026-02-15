@@ -17,7 +17,7 @@ rm -rf feeds/luci/applications/luci-app-argon-config
 # 核心依赖包
 git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall-packages package/openwrt-passwall-packages
 # PassWall2 主程序
-git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall2 package/luci-app-passwall2
+git clone --depth=1 https://github.com/velliLi/openwrt-passwall2 package/luci-app-passwall2
 # Argon 主题：移除 -b 18.06 以兼容新版 OpenWrt 界面
 git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
