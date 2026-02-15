@@ -49,13 +49,6 @@ CONFIG_PACKAGE_ip6tables-nft=y
 CONFIG_PACKAGE_xtables-nft=y
 CONFIG_PACKAGE_ca-bundle=y
 
-# 强制不编译规则包 (确保体积最小化)
-# CONFIG_PACKAGE_v2ray-geoip is not set
-# CONFIG_PACKAGE_v2ray-geosite is not set
-# CONFIG_PACKAGE_geoview is not set
-# CONFIG_PACKAGE_shadowsocks-libev-ss-local is not set
-# CONFIG_PACKAGE_shadowsocks-libev-ss-redir is not set
-
 # PassWall2 推荐配置：使用 Sing-Box 核心并开启 NFT 代理
 CONFIG_PACKAGE_luci-app-passwall2=y
 CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
