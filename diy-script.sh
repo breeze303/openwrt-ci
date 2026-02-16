@@ -21,6 +21,8 @@ git clone --depth=1 https://github.com/velliLi/openwrt-passwall2 package/luci-ap
 # Argon 主题：移除 -b 18.06 以兼容新版 OpenWrt 界面
 git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
+# 补全Lucky
+git clone --depth=1 https://github.com/gdy666/luci-app-lucky package/lucky
 
 # 4. 【关键步骤】物理剥离 PassWall2 的规则与 SS-libev 强依赖
 # 这一步必须在 ./scripts/feeds install 之前或之后立即执行，建议对 package 目录进行全局替换
