@@ -1,4 +1,4 @@
-name: IPQ60XX-6.12-NOWIFI
+name: IPQ60XX-6.12-NOWIFI-8C
 
 on:
   workflow_dispatch:   # 仅手动触发
@@ -16,12 +16,12 @@ env:
 
 jobs:
   Build:
-    runs-on: ubuntu-22.04-16core
+    runs-on: ubuntu-22.04-8core
 
     steps:
     - name: Check Server Performance(检查服务器性能)
       run: |
-        echo "⚠ 已启用 16 核 / 64GB Runner"
+        echo "⚠ 已启用 8 核 / 32GB Runner"
         echo "CPU 核心: $(nproc)"
         free -h
 
@@ -124,7 +124,7 @@ jobs:
       with:
         name: Release-${{ env.DATE }}
         allowUpdates: false
-        tag: Release-${{ env.DATE }}   # 每次新 tag
+        tag: Release-${{ env.DATE }}
         token: ${{ secrets.GITHUB_TOKEN }}
         artifacts: ${{ env.FIRMWARE_PATH }}/*
         body: |
