@@ -1,4 +1,4 @@
-name: IPQ60XX-6.12-NOWIFI
+name: znm2-wifi-diy
 
 on:
   workflow_dispatch:
