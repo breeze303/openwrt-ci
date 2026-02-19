@@ -2,13 +2,11 @@ name: IPQ60XX-24.10-6.12
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: 0 19 * * *
-
+  
 env:
   REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
   REPO_BRANCH: 24.10-6.12
-  CONFIG_FILE: configs/ipq60xx-6.12-nowifi.config
+  CONFIG_FILE: configs/ipq60xx-24.10-nowifi.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
   CACHE_TOOLCHAIN: true
