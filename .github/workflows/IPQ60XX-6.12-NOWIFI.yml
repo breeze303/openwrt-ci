@@ -17,7 +17,7 @@ env:
 
 jobs:
   Build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Check Server Performance(检查服务器性能)
