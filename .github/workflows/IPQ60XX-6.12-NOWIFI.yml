@@ -23,6 +23,7 @@ jobs:
     - name: Checkout (检出仓库)
       uses: actions/checkout@main
 
+    # ------------------ 安装依赖 ------------------
     - name: Install build dependencies (安装依赖)
       run: |
         sudo apt-get update
@@ -30,13 +31,23 @@ jobs:
           build-essential clang flex bison g++ gawk gcc-multilib g++-multilib \
           gettext git libncurses5-dev libssl-dev python3 python3-distutils python3-setuptools \
           rsync unzip zlib1g-dev file wget curl ca-certificates \
-          libelf-dev libglib2.0-dev
+          libelf-dev libglib2.0-dev ccache
 
+    # ------------------ 清理 staging_dir 避免 prereq 缓存 ------------------
     - name: Reset OpenWrt prereq (重置 OpenWrt 依赖缓存)
       run: |
         rm -rf $GITHUB_WORKSPACE/openwrt/staging_dir
         rm -rf $GITHUB_WORKSPACE/openwrt/tmp
 
+    # ------------------ 最大化构建空间 ------------------
+    - name: Maximize Build Space (合并磁盘/增加交换)
+      uses: easimon/maximize-build-space@master
+      with:
+        swap-size-mb: 2048
+        temp-reserve-mb: 100
+        root-reserve-mb: 1024
+
+    # ------------------ 克隆源码 ------------------
     - name: Clone OpenWrt source code (克隆 OpenWrt 源码)
       run: |
         git clone --depth 1 -b $REPO_BRANCH $REPO_URL openwrt
@@ -47,6 +58,7 @@ jobs:
         VERSION_KERNEL=$(grep -oP 'LINUX_KERNEL_HASH-\K[0-9]+\.[0-9]+\.[0-9]+' target/linux/generic/kernel-6.12)
         echo "VERSION_KERNEL=$VERSION_KERNEL" >> $GITHUB_ENV
 
+    # ------------------ 初始化 config 并生成变量 ------------------
     - name: Generate Variables (生成变量)
       run: |
         cd $OPENWRT_PATH
@@ -59,37 +71,46 @@ jobs:
         DEVICE_SUBTARGET=$(grep CONFIG_TARGET_SUBTARGET .config | cut -d'"' -f2)
         echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
 
+    # ------------------ 缓存工具链 ------------------
     - name: Cache Toolchain (缓存工具链)
       if: env.CACHE_TOOLCHAIN == 'true'
       uses: HiGarfield/cachewrtbuild@main
       with:
-        ccache: false
+        ccache: true                 # 开启 ccache
+        maxsize: 10G                 # 设置最大缓存
         mixkey: ${{ env.SOURCE_REPO }}-${{ env.REPO_BRANCH }}-${{ env.DEVICE_TARGET }}-${{ env.DEVICE_SUBTARGET }}
         prefix: ${{ env.OPENWRT_PATH }}
 
+    # ------------------ 更新 feeds ------------------
     - name: Install Feeds (更新并安装 feeds)
       run: |
         cd $OPENWRT_PATH
         ./scripts/feeds update -a
         ./scripts/feeds install -a
 
+    # ------------------ 执行 DIY 脚本 ------------------
     - name: Load Custom Configuration (执行 DIY 脚本)
       run: |
         cd $OPENWRT_PATH
         chmod +x $GITHUB_WORKSPACE/$DIY_SCRIPT
         $GITHUB_WORKSPACE/$DIY_SCRIPT
 
+    # ------------------ 下载 DL 包 ------------------
     - name: Download DL Package (下载 DL 软件包)
       run: |
         cd $OPENWRT_PATH
-        make download -j8
+        make download -j4              # 限制并行下载，防止爆磁盘
+        find dl -size -1024c -exec rm -f {} \;   # 清理小文件
 
+    # ------------------ 编译固件 ------------------
     - name: Compile Firmware (编译固件)
       id: compile
       run: |
         cd $OPENWRT_PATH
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 || make -j1 V=s
+        # 并行编译限制为 CPU 核心数-1，避免占满磁盘
+        JOBS=$(nproc)
+        make -j$((JOBS-1)) || make -j1 || make -j1 V=s
         echo "status=success" >> $GITHUB_OUTPUT
         echo "DATE=$(date +"%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
         echo "FILE_DATE=$(date +"%Y.%m.%d")" >> $GITHUB_ENV
@@ -98,6 +119,7 @@ jobs:
       if: (!cancelled())
       run: df -hT
 
+    # ------------------ 上传 bin 文件夹 ------------------
     - name: Upload Bin Directory (上传 bin 文件夹)
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       uses: actions/upload-artifact@main
