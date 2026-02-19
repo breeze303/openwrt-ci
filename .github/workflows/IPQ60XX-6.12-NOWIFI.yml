@@ -78,6 +78,11 @@ jobs:
           rsync unzip zlib1g-dev file wget curl ca-certificates \
           libelf-dev libglib2.0-dev
 
+    - name: Reset OpenWrt prereq
+      run: |
+        rm -rf openwrt/staging_dir
+        rm -rf openwrt/tmp
+
     - name: Clone Source Code(克隆源代码)
       run: |
         df -hT $GITHUB_WORKSPACE
