@@ -16,66 +16,25 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  build:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout current repo
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-
-    - name: Install dependencies
+    - name: Check Server Performance(检查服务器性能)
       run: |
-        sudo apt update
-        sudo apt install -y build-essential clang flex bison g++ gawk gcc-multilib \
-        gettext git libncurses5-dev libssl-dev python3-distutils rsync unzip zlib1g-dev
+        echo "警告⚠"
+        echo "分配的服务器性能有限，若选择的插件过多，务必注意CPU性能！"
+        echo -e "已知CPU型号（降序）：7763，8370C，8272CL，8171M，E5-2673 \n"
+        echo "--------------------------CPU信息--------------------------"
+        echo "CPU物理数量：$(cat /proc/cpuinfo | grep "physical id" | sort | uniq | wc -l)"
+        echo -e "CPU核心信息：$(cat /proc/cpuinfo | grep name | cut -f2 -d: | uniq -c) \n"
+        echo "--------------------------内存信息--------------------------"
+        echo "已安装内存详细信息："
+        echo -e "$(sudo lshw -short -C memory | grep GiB) \n"
+        echo "--------------------------硬盘信息--------------------------"
+        echo "硬盘数量：$(ls /dev/sd* | grep -v [1-9] | wc -l)" && df -hT
 
-    - name: Clone OpenWrt source
-      run: |
-        git clone $REPO_URL -b $REPO_BRANCH openwrt
-        echo "OPENWRT_PATH=$GITHUB_WORKSPACE/openwrt" >> $GITHUB_ENV
-
-    - name: Load custom configuration
-      run: |
-        echo "=== Debug paths ==="
-        echo "PWD=$(pwd)"
-        echo "CONFIG_FILE=$CONFIG_FILE"
-        echo "OPENWRT_PATH=$OPENWRT_PATH"
-        ls -al .
-        ls -al configs || echo "configs folder missing"
-        ls -al $CONFIG_FILE || echo "config file missing"
-
-        echo "=== Copy config ==="
-        cd $GITHUB_WORKSPACE
-        cp $CONFIG_FILE $OPENWRT_PATH/.config
-
-        cd $OPENWRT_PATH
-        make defconfig > /dev/null 2>&1
-
-        DEVICE_TARGET=$(grep CONFIG_TARGET_BOARD .config | awk -F '"' '{print $2}')
-        DEVICE_SUBTARGET=$(grep CONFIG_TARGET_SUBTARGET .config | awk -F '"' '{print $2}')
-        echo "DEVICE_TARGET=$DEVICE_TARGET" >> $GITHUB_ENV
-        echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
-
-    - name: Run DIY script
-      run: |
-        cd $OPENWRT_PATH
-        chmod +x $GITHUB_WORKSPACE/$DIY_SCRIPT
-        $GITHUB_WORKSPACE/$DIY_SCRIPT
-
-    - name: Compile OpenWrt
-      run: |
-        cd $OPENWRT_PATH
-        make -j$(nproc) || make -j1 V=s
-
-    - name: Upload firmware to release
-      if: env.FIRMWARE_RELEASE == 'true'
-      uses: softprops/action-gh-release@v1
-      with:
-        tag_name: ${{ env.FIRMWARE_TAG }}
-        files: |
-          ${{ env.OPENWRT_PATH }}/bin/targets/${{ env.DEVICE_TARGET }}/${{ env.DEVICE_SUBTARGET }}/*    - name: Initialization Environment(初始化环境)
+    - name: Initialization Environment(初始化环境)
       env:
         DEBIAN_FRONTEND: noninteractive
       run: |
@@ -176,21 +135,13 @@ jobs:
       if: steps.compile.outputs.status == 'success'
       run: |
         cd $OPENWRT_PATH/bin/targets/*/*
-        # 记录当前固件路径
-        echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
-        
-        # 动态查找并移动所有 ipk 文件到 packages 文件夹
-        mkdir -p packages
-        find $OPENWRT_PATH/bin/packages/ -type f -name "*.ipk" -exec cp -f {} packages/ \;
-        
-        # 打包 packages
-        tar -zcf Packages.tar.gz packages
-        
-        # 复制配置文件
+        cat sha256sums
+        echo "VERSION_KERNEL=$(find -type f -name "*.manifest" -exec grep -oP '^kernel - \K.*?(?=~|-\d+-)' {} \;)" >> $GITHUB_ENV
         cp $OPENWRT_PATH/.config build.config
-        
-        # 清理多余文件
+        mv -f $OPENWRT_PATH/bin/packages/*/*/*.ipk packages
+        tar -zcf Packages.tar.gz packages
         rm -rf packages feeds.buildinfo version.buildinfo
+        echo "FIRMWARE_PATH=$PWD" >> $GITHUB_ENV
 
     - name: Upload Firmware To Artifact(将固件上传到Artifact)
       if: steps.compile.outputs.status == 'success' && env.FIRMWARE_RELEASE != 'true'
