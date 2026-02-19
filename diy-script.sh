@@ -6,8 +6,8 @@
 # 1. 基础系统设置：修改默认 IP
 sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generate
 
-# 修改 ttyd 默认执行命令，添加 -f root 参数实现自动登录
-sed -i 's/\/bin\/login/\/bin\/login -f root/g' feeds/packages/utils/ttyd/files/ttyd.config
+# ttyd免登录
+sed -i 's|/bin/login|/bin/login -f root|g' feeds/packages/utils/ttyd/files/ttyd.config
 
 # 2. 清理冲突及旧版插件 (确保 feeds 更新前清理干净)
 rm -rf feeds/packages/net/smartdns
