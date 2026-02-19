@@ -61,8 +61,8 @@ jobs:
     # ------------------ 初始化 config 并生成变量 ------------------
     - name: Generate Variables (生成变量)
       run: |
+        cp $GITHUB_WORKSPACE/$CONFIG_FILE $OPENWRT_PATH/.config
         cd $OPENWRT_PATH
-        cp $CONFIG_FILE .config
         make defconfig V=s
         SOURCE_REPO="$(echo $REPO_URL | awk -F '/' '{print $(NF)}')"
         echo "SOURCE_REPO=$SOURCE_REPO" >> $GITHUB_ENV
