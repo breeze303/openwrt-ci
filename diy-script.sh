@@ -23,9 +23,6 @@ git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall-package
 git clone --depth=1 https://github.com/velliLi/openwrt-passwall2 package/luci-app-passwall2
 # git clone --depth=1 https://github.com/Openwrt-Passwall/openwrt-passwall2 package/luci-app-passwall2
 
-# kenzok8的软件源仓库，用于添加fullconenat-nft
-git clone --depth=1 https://github.com/kenzok8/small-package package/small-package
-
 # 4.Argon 主题：移除 -b 18.06 以兼容新版 OpenWrt 界面
 git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
