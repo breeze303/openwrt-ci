@@ -7,7 +7,7 @@ on:
 
 env:
   REPO_URL: https://github.com/ZqinKing/immortalwrt.git
-  REPO_BRANCH: airoha
+  REPO_BRANCH: w1701k
   CONFIG_FILE: configs/w1701k.config
   DIY_SCRIPT: diy-script.sh
   CLASH_KERNEL: amd64
