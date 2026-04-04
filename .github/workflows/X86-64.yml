@@ -99,6 +99,7 @@ jobs:
         git clone --depth 1 https://github.com/sirpdboy/luci-app-lucky.git package/lucky
         git clone --depth 1 https://github.com/sbwml/openwrt_pkgs.git
         git clone --depth 1 https://github.com/eamonxg/luci-theme-aurora.git package/luci-theme-aurora
+        git clone --depth 1 https://github.com/Zerogiven-OpenWRT-Packages/luci-app-podman.git
         rm -rf feeds/luci/applications/luci-app-smartdns
         git clone --depth 1 https://github.com/pymumu/luci-app-smartdns.git feeds/luci/applications/luci-app-smartdns
         wget -O feeds/packages/net/smartdns/Makefile https://raw.githubusercontent.com/breeze303/openwrt-smartdns/refs/heads/master/Makefile
